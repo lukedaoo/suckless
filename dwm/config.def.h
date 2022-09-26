@@ -77,10 +77,12 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_Return, zoom,           {0} }, 
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY,                       XK_q,      killclient,     {0} },
+	
+	/* layouts */
 	{ ALT,                          XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ ALT,                          XK_m,      setlayout,      {.v = &layouts[1]} },
+	{ ALT,                          XK_space,  setlayout,      {.v = &layouts[1]} },
 	{ ALT,                          XK_f,      setlayout,      {.v = &layouts[2]} },
-	{ ALT,                          XK_space,  setlayout,      {0} },
+	{ ALT|ShiftMask,                XK_f,      setlayout,      {0} },
 	{ ALT|ShiftMask,                XK_space,  togglefloating, {0} }, 
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -88,6 +90,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	/* end layouts */
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
