@@ -45,6 +45,8 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
 };
 
 /* key definitions */
@@ -82,6 +84,8 @@ static const Key keys[] = {
 	{ ALT,                          XK_t,      setlayout,      {.v = &layouts[0]} },
 	{ ALT,                          XK_space,  setlayout,      {.v = &layouts[1]} },
 	{ ALT,                          XK_f,      setlayout,      {.v = &layouts[2]} },
+	{ ALT,                          XK_u,      setlayout,      {.v = &layouts[3]} },
+	{ ALT,                          XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ ALT|ShiftMask,                XK_f,      setlayout,      {0} },
 	{ ALT|ShiftMask,                XK_space,  togglefloating, {0} }, 
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
