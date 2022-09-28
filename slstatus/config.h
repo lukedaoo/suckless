@@ -71,7 +71,8 @@ static const struct arg args[] = {
 	{ cpu_perc, "[C﬙ %s%] ", NULL },
 	{ ram_perc, "[R﬙ %s%] ", NULL },
 	{ battery_perc, "[ %s%] ", "BAT0" },
-	{ run_command, "[墳 %s]", "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2}'"},
-	{ wifi_essid, "[%s]", "wlo1" },
+	{ run_command, "[墳 %s] ", "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2}'"},
+	{ username, "[%s/", NULL },
+	{ wifi_essid, "%s] ", "wlo1" },
 	{ datetime, "[%s]", "%F %r" }
 };
