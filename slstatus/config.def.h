@@ -66,13 +66,13 @@ static const char unknown_str[] = "n/a";
 
 static const struct arg args[] = {
 	/* function format          argument */
-    	{ temp, "[ %sC] ", "/sys/class/thermal/thermal_zone0/temp" },
-	{ netspeed_rx, "[ﯲ %sB/s] ", "wlo1" },
-	{ cpu_perc, "[C﬙ %s%] ", NULL },
-	{ ram_perc, "[R﬙ %s%] ", NULL },
-	{ battery_perc, "[ %s%] ", "BAT0" },
-	{ run_command, "[墳 %s] ", "amixer -D pulse sget Master | grep 'Left:' | awk -F'[][]' '{ print $2}'"},
-	{ username, "[%s/", NULL },
-	{ wifi_essid, "%s] ", "wlo1" },
-	{ datetime, "[%s]", "%F %r" }
+    { temp, " %sC | ", "/sys/class/thermal/thermal_zone0/temp" },
+	{ netspeed_rx, " %sB/s |", "wlo1" },
+	{ cpu_perc, " C﬙ %s% |", NULL },
+	{ ram_perc, " R﬙ %s% |", NULL },
+	{ run_command, " %s |", "bash ~/.scripts/after/linux/statusbar/bat.sh" },
+	{ run_command, " %s |", "bash ~/.scripts/after/linux/statusbar/vol.sh" },
+	{ run_command, " %s |", "bash ~/.scripts/after/linux/statusbar/network.sh" },
+	{ datetime, " %s |", "%F %r" },
+	{ username, " %s", NULL }
 };
