@@ -6,7 +6,10 @@ static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "Comic Mono:style=Normal:size=10" };
+static const char *fonts[]          = { 
+    "Comic Mono:style=Normal:size=10", 
+    "Font Awesome 6 Free Regular:style=Regular:size=10" 
+};
 static const char dmenufont[]       = "Comic Mono:style=Normal:size=10";
 /* default color */
 /*
