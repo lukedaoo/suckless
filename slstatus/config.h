@@ -66,10 +66,10 @@ static const char unknown_str[] = "n/a";
 
 static const struct arg args[] = {
 	/* function format          argument */
-    { temp, " %sC | ", "/sys/class/thermal/thermal_zone0/temp" },
+    { temp, "%sC | ", "/sys/class/thermal/thermal_zone0/temp" },
 	{ netspeed_rx, " %sB/s |", "wlo1" },
-	{ cpu_perc, " C﬙ %s% |", NULL },
-	{ ram_perc, " R﬙ %s% |", NULL },
+	{ cpu_perc, " CPU %s% |", NULL },
+	{ ram_perc, " RAM %s% |", NULL },
 	{ run_command, " %s |", "bash ~/.scripts/after/linux/statusbar/bat.sh" },
 	{ run_command, " %s |", "bash ~/.scripts/after/linux/statusbar/vol.sh" },
 	{ run_command, " %s |", "bash ~/.scripts/after/linux/statusbar/network.sh" },
