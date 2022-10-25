@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
@@ -80,6 +81,14 @@ static const Layout layouts[] = {
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
+/* If you use amixer, use this instead. Thanks go to DaniOrt3ga. */
+static const char *upvol[] = { "/usr/bin/amixer", "set", "Master", "5%+", NULL };
+static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "5%-", NULL };
+static const char *mutevol[] = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
+
+/* To use light add this to the constant definition section. Thanks Hritik14. */
+static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
+static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -114,6 +123,11 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
+	{ 0,                       	XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       	XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                       	XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+	{ 0,				XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
+	{ 0,				XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
