@@ -39,6 +39,7 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const char browser[] = "Google-chrome"; /* "Microsoft-edge", "Firefox" */
 static const char ferdium[] = "Ferdium";
+static const char mail[] = "thunderbird";
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -49,6 +50,7 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ browser,  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ ferdium,  NULL,       NULL,       1 << 7,       0,           -1 },
+	{ mail,  NULL,       NULL,       1 << 6,       0,           -1 },
 };
 
 /* layout(s) */
@@ -77,10 +79,10 @@ static const Layout layouts[] = {
 
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/zsh", "-c", cmd, NULL } }
-
+static const char DEFAULT_TERMINAL[] = "kitty";
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { DEFAULT_TERMINAL, NULL };
 /* If you use amixer, use this instead. Thanks go to DaniOrt3ga. */
 static const char *upvol[] = { "/usr/bin/amixer", "set", "Master", "5%+", NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "5%-", NULL };

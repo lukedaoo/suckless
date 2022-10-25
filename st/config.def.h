@@ -5,10 +5,11 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Comic Mono:style=Normal:pixelsize=18:antialias=true:autohint=true";
+static char *font = "ComicMono Nerd Font:style=Normal:pixelsize=18:antialias=true:autohint=true";
 /* Spare fonts */
 static char *font2[] = {
     "Liberation Mono:pixelsize=18:antialias=true:autohint=true",
+    "ComicMono Nerd Font:style=Normal:pixelsize=18:antialias=true:autohint=true",
     "ComicMono NF:style=Regular:pixelsize=18:antialias=true:autohint=true",
     "Font Awesome 6 Free Regular:style=Regular:pixelsize=18:antialias=true:autohint=true",
 };
