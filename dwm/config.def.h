@@ -8,10 +8,11 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { 
-    "Comic Mono:style=Normal:size=10", 
-    "Font Awesome 6 Free Regular:style=Regular:size=10" 
+    "Comic Mono:style=Normal:size=12", 
+    "monospace:size=12",
+    "Font Awesome 6 Free Regular:style=Regular:size=12" 
 };
-static const char dmenufont[]       = "Comic Mono:style=Normal:size=10";
+static const char dmenufont[]       = "Comic Mono:style=Normal:size=12";
 /* default color */
 /*
 static const char col_gray1[]       = "#222222";
@@ -89,6 +90,7 @@ static const char *termcmd[]  = { DEFAULT_TERMINAL, NULL };
 static const char *upvol[] = { "/usr/bin/amixer", "set", "Master", "5%+", NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "5%-", NULL };
 static const char *mutevol[] = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
+static const char *mute_mic[] = {"/usr/local/bin/mute-mic", NULL};
 
 /* To use light add this to the constant definition section. Thanks Hritik14. */
 static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
@@ -127,11 +129,12 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -1 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
-	{ 0,                       	XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
-	{ 0,                       	XF86XK_AudioMute, spawn, {.v = mutevol } },
-	{ 0,                       	XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
-	{ 0,				XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
-	{ 0,				XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
+	{ 0,                       	    XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       	    XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                       	    XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+	{ 0,				            XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
+	{ 0,				            XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
+	{ 0,				            XF86XK_AudioMicMute,	spawn,	{.v = mute_mic} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
