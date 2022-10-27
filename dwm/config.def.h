@@ -82,15 +82,15 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/zsh", "-c", cmd, NULL } }
 #define STATUSBAR "dwmblocks"
 
-static const char DEFAULT_TERMINAL[] = "kitty";
+static const char default_terminal[] = "kitty";
 /* commands */
 static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { DEFAULT_TERMINAL, NULL };
+static const char *termcmd[]  = { default_terminal, NULL };
 /* If you use amixer, use this instead. Thanks go to DaniOrt3ga. */
 static const char *upvol[] = { "/usr/bin/amixer", "set", "Master", "5%+", NULL };
 static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "5%-", NULL };
 static const char *mutevol[] = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
-static const char *mute_mic[] = {"/usr/local/bin/mute-mic", NULL};
+static const char *mute_mic[] = {"/usr/bin/amixer", "set", "Capture", "toggle", NULL };
 
 /* To use light add this to the constant definition section. Thanks Hritik14. */
 static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
