@@ -41,6 +41,7 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char browser[] = "Google-chrome"; /* "Microsoft-edge", "Firefox" */
 static const char ferdium[] = "Ferdium";
 static const char mail[] = "thunderbird";
+static const char idea[] = "jetbrains-idea-ce";
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -52,6 +53,7 @@ static const Rule rules[] = {
 	{ browser,  NULL,       NULL,       1 << 8,       0,           -1 },
 	{ ferdium,  NULL,       NULL,       1 << 7,       0,           -1 },
 	{ mail,  NULL,       NULL,       1 << 6,       0,           -1 },
+	{ idea,  NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
 /* layout(s) */
