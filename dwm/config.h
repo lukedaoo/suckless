@@ -98,6 +98,9 @@ static const char *mute_mic[] = {"/usr/bin/amixer", "set", "Capture", "toggle", 
 static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
 static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 
+static const char *take_note[] = {"/home/luked/take_note.sh", NULL};
+static const char *screenshot[] = {"/usr/bin/flameshot", "gui", "-p", "/home/luked/Desktop/screenshot", NULL };
+
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
@@ -147,6 +150,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY,             XK_n,      spawn,           {.v = take_note} },
+	{ MODKEY,             XK_F4,      spawn,           {.v = screenshot} },
 };
 
 /* button definitions */
