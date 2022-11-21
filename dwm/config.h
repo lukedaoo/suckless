@@ -22,17 +22,27 @@ static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 */
 /* -------------- */
-/* ayu dark */
+/* ayu dark */ 
 static const char col_gray1[]       = "#0A0E14";
 static const char col_gray2[]       = "#1D202F";
 static const char col_gray3[]       = "#F9F9F9";
 static const char col_gray4[]       = "#CBCCC6";
-static const char col_cyan[]        = "#131721";
+static const char col_cyan[]        = "#2d2c2b";
+/* -------------- */
+/* carbon */ 
+/*
+static const char col_gray1[]       = "#191716";
+static const char col_gray2[]       = "#444444";
+static const char col_gray3[]       = "#bbbbbb";
+static const char col_gray4[]       = "#eeeeee";
+static const char col_cyan[]        = "#2d2c2b";
+*/
 /* -------------- */
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeHid]  = { col_cyan,  col_gray1, col_cyan  },
 };
 
 /* tagging */
@@ -106,8 +116,10 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
-	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
+	{ MODKEY,                       XK_k,      focusstackvis,  {.i = -1 } },
+	{ MODKEY|ShiftMask,             XK_j,      focusstackhid,  {.i = +1 } },
+	{ MODKEY|ShiftMask,             XK_k,      focusstackhid,  {.i = -1 } },
 	{ ALT,                          XK_r,      incnmaster,     {.i = +1 } },
 	{ ALT|ShiftMask,                XK_r,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
@@ -140,6 +152,9 @@ static const Key keys[] = {
 	{ 0,				            XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
 	{ 0,				            XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
 	{ 0,				            XF86XK_AudioMicMute,	spawn,	{.v = mute_mic} },
+	{ ALT,                          XK_s,      show,           {0} },
+	{ ALT|ShiftMask,                XK_s,      showall,        {0} },
+	{ ALT,                          XK_h,      hide,           {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -150,8 +165,8 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
-	{ MODKEY,             XK_n,      spawn,           {.v = take_note} },
-	{ MODKEY,             XK_F4,      spawn,           {.v = screenshot} },
+	{ MODKEY,                       XK_n,      spawn,           {.v = take_note} },
+	{ MODKEY,                       XK_F4,      spawn,           {.v = screenshot} },
 };
 
 /* button definitions */
@@ -160,6 +175,7 @@ static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkWinTitle,          0,              Button1,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
 	{ ClkStatusText,        0,              Button2,        sigstatusbar,   {.i = 2} },
