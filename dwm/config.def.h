@@ -167,6 +167,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY,                       XK_n,      spawn,           {.v = take_note} },
 	{ MODKEY,                       XK_F4,      spawn,           {.v = screenshot} },
+	{ MODKEY,                       XK_Print,      spawn,           {.v = screenshot} },
 };
 
 /* button definitions */
@@ -188,4 +189,3 @@ static const Button buttons[] = {
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
 };
-
