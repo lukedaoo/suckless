@@ -96,7 +96,8 @@ static const Layout layouts[] = {
 
 static const char default_terminal[] = "kitty";
 /* commands */
-static const char *dmenucmd[] = { "dmenu_run", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { default_terminal, NULL };
 /* If you use amixer, use this instead. Thanks go to DaniOrt3ga. */
 static const char *upvol[] = { "/usr/bin/amixer", "set", "Master", "5%+", NULL };
