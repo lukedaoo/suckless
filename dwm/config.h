@@ -57,6 +57,7 @@ static const char ferdium[] = "Ferdium";
 static const char mail[] = "thunderbird";
 static const char idea[] = "jetbrains-idea-ce";
 
+static const char slack[] = "Slack";
 static const char discord[] = "discord";
 static const char teams[] = "teams-for-linux";
 
@@ -76,8 +77,9 @@ static const Rule rules[] = {
 	{ idea,  NULL,       NULL,       1 << 5,       0,           -1 },
 
 	{ default_terminal,  NULL,       NULL,       1 << 0,       0,           -1 },
-	{ discord,  NULL,       NULL,       1 << 2,       0,           -1 },
-	{ teams,  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ slack,  NULL,       NULL,       1 << 2,       0,           -1 },
+	{ discord,  NULL,       NULL,       1 << 3,       0,           -1 },
+	{ teams,  NULL,       NULL,       1 << 3,       0,           -1 },
 };
 
 /* layout(s) */
