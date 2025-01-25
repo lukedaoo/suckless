@@ -125,7 +125,7 @@ static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
 static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 
 static const char *take_note[] = {"/home/luked/.local/bin/take_note", NULL};
-static const char *screenshot[] = {"/usr/bin/flameshot", "gui", "-p", "/home/luked/Desktop/screenshot", NULL };
+static const char *screenshot[] = {"/usr/bin/flameshot", "gui", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
