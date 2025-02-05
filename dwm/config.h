@@ -8,11 +8,12 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { 
-    "Comic Mono:style=Normal:size=12", 
-    "monospace:size=12",
-    "Font Awesome 6 Free Regular:style=Regular:size=12" 
+    "Comic Code:size=10",
+    "Comic Mono:style=Normal:size=10", 
+    "monospace:size=10",
+    "Font Awesome 6 Free Regular:style=Regular:size=10" 
 };
-static const char dmenufont[]       = "Comic Mono:style=Normal:size=12";
+static const char dmenufont[]       = "Comic Code:style=Normal:size=12";
 /* default color */
 /*
 static const char col_gray1[]       = "#222222";
@@ -60,6 +61,8 @@ static const char idea[] = "jetbrains-idea-ce";
 static const char slack[] = "Slack";
 static const char discord[] = "discord";
 static const char teams[] = "teams-for-linux";
+// static const char zoom_[] = "zoom";
+static const char zoom_meeting[] = "Meeting";
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -80,6 +83,7 @@ static const Rule rules[] = {
 	{ slack,  NULL,       NULL,       1 << 2,       0,           -1 },
 	{ discord,  NULL,       NULL,       1 << 3,       0,           -1 },
 	{ teams,  NULL,       NULL,       1 << 3,       0,           -1 },
+	{ NULL,  NULL,       zoom_meeting,       1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
@@ -124,7 +128,7 @@ static const char *mute_mic[] = {"/usr/bin/amixer", "set", "Capture", "toggle", 
 static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
 static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 
-static const char *take_note[] = {"/home/luked/.local/bin/take_note", NULL};
+static const char *take_note[] = {"take_note", NULL};
 static const char *screenshot[] = {"/usr/bin/flameshot", "gui", NULL };
 
 static const Key keys[] = {
