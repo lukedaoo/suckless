@@ -8,12 +8,11 @@ static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { 
-    "Comic Code:size=10",
-    "Comic Mono:style=Normal:size=10", 
-    "monospace:size=10",
-    "Font Awesome 6 Free Regular:style=Regular:size=10" 
+    "Comic Mono:style=Normal:size=12", 
+    "monospace:size=12",
+    "Font Awesome 6 Free Regular:style=Regular:size=12" 
 };
-static const char dmenufont[]       = "Comic Code:style=Normal:size=12";
+static const char dmenufont[]       = "Comic Mono:style=Normal:size=12";
 /* default color */
 /*
 static const char col_gray1[]       = "#222222";
@@ -61,8 +60,6 @@ static const char idea[] = "jetbrains-idea-ce";
 static const char slack[] = "Slack";
 static const char discord[] = "discord";
 static const char teams[] = "teams-for-linux";
-// static const char zoom_[] = "zoom";
-static const char zoom_meeting[] = "Meeting";
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -83,7 +80,6 @@ static const Rule rules[] = {
 	{ slack,  NULL,       NULL,       1 << 2,       0,           -1 },
 	{ discord,  NULL,       NULL,       1 << 3,       0,           -1 },
 	{ teams,  NULL,       NULL,       1 << 3,       0,           -1 },
-	{ NULL,  NULL,       zoom_meeting,       1 << 4,       0,           -1 },
 };
 
 /* layout(s) */
