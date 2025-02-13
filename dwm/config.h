@@ -127,8 +127,9 @@ static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 static const char *take_note[] = {"take_note", NULL};
 static const char *screenshot[] = {"/usr/bin/flameshot", "gui", NULL };
 
-static const char *next_music[] = {"next_music", NULL};
-static const char *previous_music[] = {"previous_music", NULL};
+static const char *next_music[] = {"playerctl", "next", NULL};
+static const char *previous_music[] = {"playerctl", "previous", NULL};
+static const char *play_pause_music[] = {"playerctl", "play-pause", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -171,6 +172,7 @@ static const Key keys[] = {
 	{ 0,                       	    XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
 	{ 0,                       	    XF86XK_AudioNext, spawn, {.v = next_music   } },
 	{ 0,                       	    XF86XK_AudioPrev, spawn, {.v = previous_music   } },
+	{ 0,                       	    XF86XK_AudioPlay, spawn, {.v = play_pause_music   } },
 	{ 0,				            XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
 	{ 0,				            XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
 	{ 0,				            XF86XK_AudioMicMute,	spawn,	{.v = mute_mic} },
