@@ -124,8 +124,11 @@ static const char *mute_mic[] = {"/usr/bin/amixer", "set", "Capture", "toggle", 
 static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
 static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 
-static const char *take_note[] = {"/home/luked/.local/bin/take_note", NULL};
+static const char *take_note[] = {"take_note", NULL};
 static const char *screenshot[] = {"/usr/bin/flameshot", "gui", NULL };
+
+static const char *next_music[] = {"next_music", NULL};
+static const char *previous_music[] = {"previous_music", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -166,6 +169,8 @@ static const Key keys[] = {
 	{ 0,                       	    XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                       	    XF86XK_AudioMute, spawn, {.v = mutevol } },
 	{ 0,                       	    XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
+	{ 0,                       	    XF86XK_AudioNext, spawn, {.v = next_music   } },
+	{ 0,                       	    XF86XK_AudioPrev, spawn, {.v = previous_music   } },
 	{ 0,				            XF86XK_MonBrightnessUp,		spawn,	{.v = light_up} },
 	{ 0,				            XF86XK_MonBrightnessDown,	spawn,	{.v = light_down} },
 	{ 0,				            XF86XK_AudioMicMute,	spawn,	{.v = mute_mic} },
