@@ -52,6 +52,7 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char browser1[] = "Google-chrome"; /* "Microsoft-edge", "Firefox" */
 static const char browser2[] = "Microsoft-edge"; 
 static const char browser3[] = "firefox"; 
+static const char browser4[] = "LibreWolf"; 
 
 static const char ferdium[] = "Ferdium";
 static const char mail[] = "thunderbird";
@@ -71,6 +72,7 @@ static const Rule rules[] = {
 	{ browser1,  NULL,       NULL,       1 << 1,       0,           -1 },
 	{ browser2,  NULL,       NULL,       1 << 1,       0,           -1 },
 	{ browser3,  NULL,       NULL,       1 << 1,       0,           -1 },
+	{ browser4,  NULL,       NULL,       1 << 1,       0,           -1 },
 
 	{ ferdium,  NULL,       NULL,       1 << 7,       0,           -1 },
 	{ mail,  NULL,       NULL,       1 << 6,       0,           -1 },

@@ -3,13 +3,13 @@
 static const Block blocks[] = {
     /*Icon*/ /*Command*/ /*Update Interval*/ /*Update Signal*/
     {"", "sb-netspeed", 5, 17},
-    {"", "sb-cpu", 5, 18},
-    {"", "sb-memory", 5, 19},
+    // {"", "sb-cpu", 5, 18},
+    // {"", "sb-memory", 5, 19},
     // {"", "sb-music", 3, 30},
     {"", "sb-volume", 3, 20},
     // {"", "sb-battery", 3, 21},
-    {"", "sb-bluetooth", 5, 23},
-    {"", "sb-internet", 5, 24},
+    // {"", "sb-bluetooth", 5, 23},
+    // {"", "sb-internet", 5, 24},
     {"", "sb-date", 1, 25},
     {"", "sb-user", 0, 26},
 };
