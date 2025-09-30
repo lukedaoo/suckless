@@ -12,3 +12,9 @@ cd st
 sudo make uninstall
 sudo make clean install
 cd ..
+
+# install dwmblocks
+cd dwmblocks
+sudo make uninstall
+sudo make clean install
+cd ..
