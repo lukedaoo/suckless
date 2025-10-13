@@ -127,7 +127,8 @@ static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
 static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
 
 static const char *take_note[] = {"take_note", NULL};
-static const char *screenshot[] = {"/usr/bin/flameshot", "gui", NULL };
+static const char *screenshot[] = {"flameshot-fix", NULL };
+static const char *thunar[] = {"thunar", NULL };
 
 static const char *next_music[] = {"playerctl", "next", NULL};
 static const char *previous_music[] = {"playerctl", "previous", NULL};
@@ -159,6 +160,8 @@ static const Key keys[] = {
 	{ ALT|ShiftMask,                XK_f,      setlayout,      {0} },
 	{ ALT|ShiftMask,                XK_space,  togglefloating, {0} }, 
 	{ ALT,                          XK_F11,      fullscreen,     {0} },
+    { MODKEY,                       XK_e,      spawn,           {.v = thunar} },
+
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
