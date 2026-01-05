@@ -55,7 +55,7 @@ static const char browser3[] = "firefox";
 static const char browser4[] = "LibreWolf"; 
 
 static const char ferdium[] = "Ferdium";
-static const char mail[] = "thunderbird";
+static const char mail[] = "org.mozilla.Thunderbird";
 static const char idea[] = "jetbrains-idea-ce";
 
 static const char slack[] = "Slack";
