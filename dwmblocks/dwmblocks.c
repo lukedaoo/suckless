@@ -61,25 +61,26 @@ void getcmd(const Block *block, char *output)
 {
 	if (block->signal)
 		*output++ = block->signal;
-	strcpy(output, block->icon);
+	//make sure status is same until output is ready
+	char tempstatus[CMDLENGTH] = {0};
+	strcpy(tempstatus, block->icon);
 	FILE *cmdf = popen(block->command, "r");
 	if (!cmdf)
 		return;
 	int i = strlen(block->icon);
-	fgets(output+i, CMDLENGTH-i-delimLen, cmdf);
-	i = strlen(output);
-	if (i == 0) {
-		//return if block and command output are both empty
-		pclose(cmdf);
-		return;
+	fgets(tempstatus+i, CMDLENGTH-i-delimLen, cmdf);
+	i = strlen(tempstatus);
+	//if block and command output are both not empty
+	if (i != 0) {
+		//only chop off newline if one is present at the end
+		i = tempstatus[i-1] == '\n' ? i-1 : i;
+		if (delim[0] != '\0') {
+			strncpy(tempstatus+i, delim, delimLen);
+		}
+		else
+			tempstatus[i++] = '\0';
 	}
-	//only chop off newline if one is present at the end
-	i = output[i-1] == '\n' ? i-1 : i;
-	if (delim[0] != '\0') {
-		strncpy(output+i, delim, delimLen); 
-	}
-	else
-		output[i++] = '\0';
+	strcpy(output, tempstatus);
 	pclose(cmdf);
 }
 
@@ -195,6 +196,8 @@ void sighandler(int signum, siginfo_t *si, void *ucontext)
 #endif
 			int i;
 			for (i = 0; i < LENGTH(blocks) && blocks[i].signal != signum-SIGRTMIN; i++);
+            if (i >= LENGTH(blocks))
+                exit(EXIT_SUCCESS);
 
 			char shcmd[1024];
 			sprintf(shcmd, "%s; kill -%d %d", blocks[i].command, SIGRTMIN+blocks[i].signal, parent);

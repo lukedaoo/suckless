@@ -1960,11 +1960,16 @@ sigstatusbar(const Arg *arg)
 
 	if (!statussig)
 		return;
-	sv.sival_int = arg->i;
+    if (arg->i <= 0)
+        return;
 	if ((statuspid = getstatusbarpid()) <= 0)
 		return;
 
-	sigqueue(statuspid, SIGRTMIN+statussig, sv);
+	sv.sival_int = arg->i;
+
+    if (sigqueue(statuspid, SIGRTMIN + statussig, sv) == -1) {
+		statuspid = -1;
+	}
 }
 
 void
