@@ -102,9 +102,9 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[M]",      monocle },  /* first entry is default */
-	{ "[]=",      tile },
+	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
+	{ "[M]",      monocle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
 };
@@ -167,9 +167,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	
 	/* layouts */
-	{ ALT,                          XK_t,      setlayout,      {.v = &layouts[1]} },
-	{ ALT,                          XK_space,  setlayout,      {.v = &layouts[2]} },
-	{ ALT,                          XK_f,      setlayout,      {.v = &layouts[0]} },
+	{ ALT,                          XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ ALT,                          XK_space,  setlayout,      {.v = &layouts[1]} },
+	{ ALT,                          XK_f,      setlayout,      {.v = &layouts[2]} },
 	{ ALT,                          XK_u,      setlayout,      {.v = &layouts[3]} },
 	{ ALT,                          XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ ALT|ShiftMask,                XK_f,      setlayout,      {0} },
@@ -219,7 +219,7 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[0]} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button1,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
