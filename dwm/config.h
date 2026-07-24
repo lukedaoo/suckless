@@ -7,7 +7,14 @@ static const unsigned int gappx     = 5;        /* gaps between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { 
+/*  Display modes of the tab bar: never shown, always shown, shown only in  */
+/*  monocle mode in the presence of several windows.                        */
+/*  Modes after showtab_nmodes are disabled.                                */
+enum showtab_modes { showtab_never, showtab_auto, showtab_nmodes, showtab_always};
+static const int showtab			= showtab_auto;        /* Default tab bar show mode */
+static const int toptab				= True;                /* False means bottom tab bar */
+
+static const char *fonts[]          = {
     "Comic Mono:style=Normal:size=12", 
     "monospace:size=12",
     "Font Awesome 6 Free Regular:style=Regular:size=12" 
@@ -95,9 +102,9 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
+	{ "[M]",      monocle },  /* first entry is default */
+	{ "[]=",      tile },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
 };
@@ -142,8 +149,13 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstackvis,  {.i = -1 } },
+	{ ALT,                          XK_Right,  focusstackvis,  {.i = +1 } },
+	{ ALT,                          XK_Left,   focusstackvis,  {.i = -1 } },
+	{ ALT|ShiftMask,                XK_Right,  movestack,      {.i = +1 } },
+	{ ALT|ShiftMask,                XK_Left,   movestack,      {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      focusstackhid,  {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      focusstackhid,  {.i = -1 } },
 	{ ALT,                          XK_r,      incnmaster,     {.i = +1 } },
@@ -155,9 +167,9 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_q,      killclient,     {0} },
 	
 	/* layouts */
-	{ ALT,                          XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ ALT,                          XK_space,  setlayout,      {.v = &layouts[1]} },
-	{ ALT,                          XK_f,      setlayout,      {.v = &layouts[2]} },
+	{ ALT,                          XK_t,      setlayout,      {.v = &layouts[1]} },
+	{ ALT,                          XK_space,  setlayout,      {.v = &layouts[2]} },
+	{ ALT,                          XK_f,      setlayout,      {.v = &layouts[0]} },
 	{ ALT,                          XK_u,      setlayout,      {.v = &layouts[3]} },
 	{ ALT,                          XK_o,      setlayout,      {.v = &layouts[4]} },
 	{ ALT|ShiftMask,                XK_f,      setlayout,      {0} },
@@ -207,7 +219,7 @@ static const Key keys[] = {
 static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[0]} },
 	{ ClkWinTitle,          0,              Button1,        togglewin,      {0} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button1,        sigstatusbar,   {.i = 1} },
@@ -220,4 +232,5 @@ static const Button buttons[] = {
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
 	{ ClkTagBar,            MODKEY,         Button3,        toggletag,      {0} },
+	{ ClkTabBar,            0,              Button1,        focuswin,       {0} },
 };
