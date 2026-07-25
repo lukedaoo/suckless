@@ -35,8 +35,10 @@ static const char col_gray2[]       = "#1D202F";
 static const char col_gray3[]       = "#F9F9F9";
 static const char col_gray4[]       = "#CBCCC6";
 static const char col_cyan[]        = "#2d2c2b";
+static const char col_accent[]      = "#E6B450";
+static const char col_muted[]       = "#5C6773";
 /* -------------- */
-/* carbon */ 
+/* carbon */
 /*
 static const char col_gray1[]       = "#191716";
 static const char col_gray2[]       = "#444444";
@@ -47,9 +49,10 @@ static const char col_cyan[]        = "#2d2c2b";
 /* -------------- */
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeHid]  = { col_cyan,  col_gray1, col_cyan  },
+	[SchemeNorm]   = { col_gray3, col_gray1,  col_gray2  },
+	[SchemeSel]    = { col_gray4, col_cyan,   col_cyan   },
+	[SchemeHid]    = { col_muted, col_gray1,  col_muted  },
+	[SchemeTabSel] = { col_gray1, col_accent, col_accent },
 };
 // static const char default_terminal[] = "kitty";
 static const char default_terminal[] = "ghostty";

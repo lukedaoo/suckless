@@ -60,7 +60,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeHid }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeHid, SchemeTabSel }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -907,7 +907,13 @@ drawbar(Monitor *m)
 					}
 					remainder--;
 				}
-				drw_text(drw, x, 0, tabw, bh, lrpad / 2, c->name, 0);
+				if (HIDDEN(c)) {
+					char hname[260];
+					snprintf(hname, sizeof hname, "H:%s", c->name);
+					drw_text(drw, x, 0, tabw, bh, lrpad / 2, hname, 0);
+				} else {
+					drw_text(drw, x, 0, tabw, bh, lrpad / 2, c->name, 0);
+				}
 				x += tabw;
 			}
 		} else {
@@ -967,7 +973,7 @@ drawtab(Monitor *m) {
 	  /* add the remainder to the last tab so there is no leftover space left*/
 	  if(remainder && i == m->ntabs - 1) m->tab_widths[i] += remainder;
 	  w = m->tab_widths[i];
-	  drw_setscheme(drw, scheme[(c == m->sel) ? SchemeSel : SchemeNorm]);
+	  drw_setscheme(drw, scheme[(c == m->sel) ? SchemeTabSel : HIDDEN(c) ? SchemeHid : SchemeNorm]);
 	  tm = (m->tab_widths[i] - (int)TEXTW(c->name)) / 2;
 	  tm = (int)TEXTW(c->name) >= m->tab_widths[i] ? lrpad / 2 : tm;
 	  drw_text(drw, x, 0, w, th, tm, c->name, 0);
