@@ -227,7 +227,7 @@ static const Key keys[] = {
 	{ 0,				            XF86XK_AudioMicMute,	spawn,	{.v = mute_mic} },
 	{ ALT,                          XK_s,      show,           {0} },
 	{ ALT|ShiftMask,                XK_s,      showall,        {0} },
-	{ ALT,                          XK_h,      hide,           {0} },
+	{ ALT,                          XK_h,      togglehide,     {0} },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)

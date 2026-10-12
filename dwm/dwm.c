@@ -240,6 +240,7 @@ static void setlayout(const Arg *arg);
 static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
+static Client *findhidden(Monitor *m);
 static void show(const Arg *arg);
 static void showall(const Arg *arg);
 static void showwin(Client *c);
@@ -247,6 +248,7 @@ static void showhide(Client *c);
 static void sigstatusbar(const Arg *arg);
 static void spawn(const Arg *arg);
 static void tabmode(const Arg *arg);
+static void togglehide(const Arg *arg);
 static void tag(const Arg *arg);
 static void taglabel(Monitor *m, unsigned int i, char *buf, size_t len);
 static void tagmon(const Arg *arg);
@@ -2105,9 +2107,41 @@ seturgent(Client *c, int urg)
 void
 show(const Arg *arg)
 {
+	Client *c = selmon->sel;
+
 	if (selmon->hidsel)
 		selmon->hidsel = 0;
-	showwin(selmon->sel);
+
+	/* focus left the hidden window on hide: pick the latest hidden one */
+	if (!c || !HIDDEN(c))
+		c = findhidden(selmon);
+
+	if (!c)
+		return;
+
+	showwin(c);
+	focus(c);
+}
+
+/* Latest hidden window on the visible tags, or NULL. */
+Client *
+findhidden(Monitor *m)
+{
+	Client *c;
+
+	for (c = m->stack; c && !(ISVISIBLE(c) && HIDDEN(c)); c = c->snext);
+	return c;
+}
+
+/* Restore the latest hidden window, else hide the focused one. */
+void
+togglehide(const Arg *arg)
+{
+	if (findhidden(selmon) || (selmon->sel && HIDDEN(selmon->sel))) {
+		show(arg);
+		return;
+	}
+	hide(arg);
 }
 
 void
