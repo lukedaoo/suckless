@@ -17,14 +17,18 @@
 #define LENGTH(X)               (sizeof(X) / sizeof (X[0]))
 #define CMDLENGTH		50
 #define MIN( a, b ) ( ( a < b) ? a : b )
-#define STATUSLENGTH (LENGTH(blocks) * CMDLENGTH + 1)
+#define TOGGLE_PREFIX_LENGTH	16
+#define STATUSLENGTH (LENGTH(blocks) * CMDLENGTH + TOGGLE_PREFIX_LENGTH + 1)
 
 typedef struct {
 	char* icon;
 	char* command;
 	unsigned int interval;
 	unsigned int signal;
+	unsigned int compact;
 } Block;
+
+typedef enum { VIEW_FULL, VIEW_COMPACT } ViewMode;
 #ifndef __OpenBSD__
 void dummysighandler(int num);
 #endif
@@ -55,6 +59,7 @@ static char statusbar[LENGTH(blocks)][CMDLENGTH] = {0};
 static char statusstr[2][STATUSLENGTH];
 static int statusContinue = 1;
 static int returnStatus = 0;
+static ViewMode viewMode = VIEW_COMPACT;
 
 //opens process *cmd and stores output in *output
 void getcmd(const Block *block, char *output)
@@ -119,15 +124,23 @@ void setupsignals()
 		if (blocks[i].signal > 0)
 			sigaction(SIGMINUS+blocks[i].signal, &sa, NULL);
 	}
+	sigaction(SIGMINUS+TOGGLE_SIGNAL, &sa, NULL);
 
 }
 
 int getstatus(char *str, char *last)
 {
 	strcpy(last, str);
-	str[0] = '\0';
-	for (unsigned int i = 0; i < LENGTH(blocks); i++)
+	//toggle glyph first; signal byte routes bar clicks to sighandler
+	str[0] = TOGGLE_SIGNAL;
+	str[1] = '\0';
+	strcat(str, viewMode == VIEW_FULL ? glyphFull : glyphCompact);
+	strcat(str, delim);
+	for (unsigned int i = 0; i < LENGTH(blocks); i++) {
+		if (viewMode == VIEW_COMPACT && !blocks[i].compact)
+			continue;
 		strcat(str, statusbar[i]);
+	}
 	str[strlen(str)-strlen(delim)] = '\0';
 	return strcmp(str, last);//0 if they are the same
 }
@@ -187,6 +200,12 @@ void dummysighandler(int signum)
 
 void sighandler(int signum, siginfo_t *si, void *ucontext)
 {
+	if (signum-SIGRTMIN == TOGGLE_SIGNAL) {
+		viewMode = viewMode == VIEW_FULL ? VIEW_COMPACT : VIEW_FULL;
+		writestatus();
+		return;
+	}
+
 	if (si->si_value.sival_int) {
 		pid_t parent = getpid();
 		if (fork() == 0) {
