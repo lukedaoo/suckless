@@ -60,6 +60,32 @@ static const char default_terminal[] = "ghostty";
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
+/* tag label: "5:zoom+4 ff+3 ..." (see taglabel() in dwm.c) */
+#define LABEL_MAX_APPS  2   /* apps shown per tag, rest become ellipsis */
+#define LABEL_MAX_COUNT 9   /* cap of the "+k" window count */
+#define LABEL_MAX_LEN   24  /* bytes, whole label */
+#define ALIAS_MAX_LEN   7   /* chars, unaliased class names */
+
+typedef struct {
+	const char *class;
+	const char *alias;
+} AppAlias;
+
+/* xprop WM_CLASS, second string. Same alias = one entry per tag. */
+static const AppAlias aliases[] = {
+	{ "com.mitchellh.ghostty", "term" },
+	{ "kitty",                 "term" },
+	{ "St",                    "term" },
+	{ "Alacritty",             "term" },
+	{ "firefox",               "ff"   },
+	{ "Google-chrome",         "chrome" },
+	{ "Microsoft-edge",        "edge" },
+	{ "LibreWolf",             "wolf" },
+	{ "org.mozilla.Thunderbird", "mail" },
+	{ "jetbrains-idea-ce",     "idea" },
+	{ "teams-for-linux",       "teams" },
+};
+
 static const char browser1[] = "Google-chrome"; /* "Microsoft-edge", "Firefox" */
 static const char browser2[] = "Microsoft-edge"; 
 static const char browser3[] = "firefox"; 

@@ -57,6 +57,12 @@
 #define HEIGHT(X)               ((X)->h + 2 * (X)->bw)
 #define TAGMASK                 ((1 << LENGTH(tags)) - 1)
 #define TEXTW(X)                (drw_fontset_getwidth(drw, (X)) + lrpad)
+#define APP_BUF_LEN             16
+#define LABEL_BUF_LEN           64
+#define UNKNOWN_APP             "?"
+#define ELLIPSIS                "\xe2\x80\xa6"
+#define UTF8_CONT_MASK          0xC0
+#define UTF8_CONT_BITS          0x80
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
@@ -87,6 +93,7 @@ typedef struct Monitor Monitor;
 typedef struct Client Client;
 struct Client {
 	char name[256];
+	char app[APP_BUF_LEN];
 	float mina, maxa;
 	int x, y, w, h;
 	int oldx, oldy, oldw, oldh;
@@ -157,6 +164,7 @@ typedef struct {
 } Rule;
 
 /* function declarations */
+static void appalias(const char *class, char *out);
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
@@ -240,6 +248,7 @@ static void sigstatusbar(const Arg *arg);
 static void spawn(const Arg *arg);
 static void tabmode(const Arg *arg);
 static void tag(const Arg *arg);
+static void taglabel(Monitor *m, unsigned int i, char *buf, size_t len);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
@@ -353,11 +362,40 @@ applyrules(Client *c)
 				c->mon = m;
 		}
 	}
+	appalias(ch.res_class, c->app);
 	if (ch.res_class)
 		XFree(ch.res_class);
 	if (ch.res_name)
 		XFree(ch.res_name);
 	c->tags = c->tags & TAGMASK ? c->tags & TAGMASK : c->mon->tagset[c->mon->seltags];
+}
+
+/* Short app name for the tag label: alias table, else last class segment. */
+void
+appalias(const char *class, char *out)
+{
+	const char *p;
+	size_t i, n = 0;
+
+	if (!class || !*class) {
+		snprintf(out, APP_BUF_LEN, "%s", UNKNOWN_APP);
+		return;
+	}
+
+	for (i = 0; i < LENGTH(aliases); i++) {
+		if (strcmp(class, aliases[i].class))
+			continue;
+		snprintf(out, APP_BUF_LEN, "%s", aliases[i].alias);
+		return;
+	}
+
+	/* "com.mitchellh.ghostty" -> "ghostty" */
+	p = strrchr(class, '.');
+	p = p && p[1] ? p + 1 : class;
+	for (; *p && n < ALIAS_MAX_LEN; p++, n++) {
+		out[n] = (*p >= 'A' && *p <= 'Z') ? *p + ('a' - 'A') : *p;
+	}
+	out[n] = '\0';
 }
 
 int
@@ -496,13 +534,15 @@ buttonpress(XEvent *e)
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
 		unsigned int occ = 0;
+		char label[LABEL_BUF_LEN];
 		for(c = m->clients; c; c=c->next)
 			occ |= c->tags == TAGMASK ? 0 : c->tags;
 		do {
 			/* Do not reserve space for vacant tags */
 			if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
 				continue;
-			x += TEXTW(tags[i]);
+			taglabel(m, i, label, sizeof label);
+			x += TEXTW(label);
 		} while (ev->x >= x && ++i < LENGTH(tags));
 		if (i < LENGTH(tags)) {
 			click = ClkTagBar;
@@ -838,6 +878,7 @@ drawbar(Monitor *m)
 	int boxs = drw->fonts->h / 9;
 	int boxw = drw->fonts->h / 6 + 2;
 	unsigned int i, occ = 0, urg = 0;
+	char label[LABEL_BUF_LEN];
 	Client *c;
 
 	if (!m->showbar)
@@ -877,9 +918,10 @@ drawbar(Monitor *m)
 		/* Do not draw vacant tags */
 		if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
 			continue;
-		w = TEXTW(tags[i]);
+		taglabel(m, i, label, sizeof label);
+		w = TEXTW(label);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
-		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
+		drw_text(drw, x, 0, w, bh, lrpad / 2, label, urg & 1 << i);
 		x += w;
 	}
 	w = TEXTW(m->ltsymbol);
@@ -2162,6 +2204,62 @@ tag(const Arg *arg)
 		focus(NULL);
 		arrange(selmon);
 	}
+}
+
+/*
+ * Tag label, apps in focus order, "+k" = k windows of the app (k > 1):
+ *   "5:zoom+4 ff+3 ..."
+ */
+void
+taglabel(Monitor *m, unsigned int i, char *buf, size_t len)
+{
+	const char *names[LABEL_MAX_APPS];
+	int counts[LABEL_MAX_APPS];
+	int n = 0, overflow = 0, count;
+	unsigned int j;
+	size_t off, cut;
+	char tmp[LABEL_BUF_LEN];
+	Client *c;
+
+	for (c = m->stack; c; c = c->snext) {
+		if (!(c->tags & 1 << i) || c->tags == TAGMASK)
+			continue;
+
+		for (j = 0; j < n && strcmp(names[j], c->app); j++);
+		if (j < n) {
+			counts[j]++;
+			continue;
+		}
+		if (n == LABEL_MAX_APPS) {
+			overflow = 1;
+			continue;
+		}
+		names[n] = c->app;
+		counts[n++] = 1;
+	}
+
+	off = snprintf(tmp, sizeof tmp, "%s", tags[i]);
+	for (j = 0; j < n && off < sizeof tmp; j++) {
+		count = MIN(counts[j], LABEL_MAX_COUNT);
+		off += snprintf(tmp + off, sizeof tmp - off, "%c%s", j ? ' ' : ':', names[j]);
+		if (count > 1 && off < sizeof tmp)
+			off += snprintf(tmp + off, sizeof tmp - off, "+%d", count);
+	}
+	if (overflow && off < sizeof tmp)
+		snprintf(tmp + off, sizeof tmp - off, " %s", ELLIPSIS);
+
+	if (strlen(tmp) <= LABEL_MAX_LEN) {
+		snprintf(buf, len, "%s", tmp);
+		return;
+	}
+
+	/* cut on a UTF-8 boundary, then mark the cut */
+	cut = LABEL_MAX_LEN - strlen(ELLIPSIS);
+	while (cut && (tmp[cut] & UTF8_CONT_MASK) == UTF8_CONT_BITS) {
+		cut--;
+	}
+	tmp[cut] = '\0';
+	snprintf(buf, len, "%s%s", tmp, ELLIPSIS);
 }
 
 void
