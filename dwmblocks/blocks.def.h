@@ -10,6 +10,7 @@ static const Block blocks[] = {
     {"", "sb-battery", 3, 21, 0},
     // {"", "sb-bluetooth", 5, 23, 0},
     // {"", "sb-internet", 5, 24, 0},
+    {"", "sb-pomodoro", 1, 28, 1},
     {"", "sb-date", 1, 25, 1},
     {"", "sb-user", 0, 26, 1},
 };
