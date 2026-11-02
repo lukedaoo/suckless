@@ -1,0 +1,7 @@
+MADO
+*.ppm
+*.o
+cboomer
+release
+TAGS
+digest.txt

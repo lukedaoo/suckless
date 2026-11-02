@@ -1,0 +1,78 @@
+# CBoomer
+
+![](./static/demka.gif)
+
+A C port of [Boomer](https://github.com/tsoding/boomer) by Tsoding - a zoomer application for Linux. This port focuses on the core functionality (screenshot viewing, zoom, pan, flashlight) and does not yet implement live window tracking (honestly, I've never used it)
+
+## Features
+
+- Fullscreen screenshot viewer with smooth zoom and pan
+- Flashlight effect that follows your cursor
+- Clean, modular C code with single-header libraries
+
+## Differences from original Boomer
+
+- No live window tracking - focused on screenshot viewing only
+- Additional configuration - more camera and flashlight parameters exposed in `config.h`
+- Screenshot rotation (both directions)
+- Screenshot mirroring (horizontal flip)
+- Screenshot export to a configurable path
+- Soft flashlight edges - smooth gradient instead of hard circular cutoff (you can enable it in the `config.h`)
+- Configurable texture filtering - switch between pixelated and smooth (check `config.h`)
+
+## Pre-built Binaries
+
+Check the [Releases](https://github.com/laserattack/cboomer/releases/) page for portable Linux executables. Requires:
+
+- Linux x86_64 system
+- X11
+- GPU with OpenGL support (any modern GPU works)
+
+## Build from source
+
+### Dependencies
+
+- X11 development libraries (libX11, libXext, libXrandr)
+- OpenGL development libraries (libGL, libGLX)
+- GLEW (OpenGL Extension Wrangler)
+- zlib (for PNG export)
+
+### Build and run
+
+```
+make
+./cboomer
+```
+
+For faster screenshot capture with MIT-SHM:
+
+```
+make USE_XSHM=1
+./cboomer
+```
+
+## Default Controls
+
+| Control                                       | Action                                          |
+|-----------------------------------------------|-------------------------------------------------|
+| <kbd>Esc</kbd>                                | Quit                                            |
+| <kbd>1</kbd>                                  | Reset camera                                    |
+| <kbd>2</kbd>                                  | Toggle flashlight                               |
+| <kbd>3</kbd>                                  | Rotate screenshot left                          |
+| <kbd>4</kbd>                                  | Rotate screenshot right                         |
+| <kbd>5</kbd>                                  | Mirror screenshot horizontally                  |
+| <kbd>=</kbd> / <kbd>-</kbd>                   | Zoom in / out                                   |
+| <kbd>s</kbd>                                  | Save current view to `~/cboomer_screenshot.png` |
+| Drag with left mouse                          | Pan the image                                   |
+| Scroll wheel                                  | Zoom in / out                                   |
+| <kbd>Ctrl</kbd> + <kbd>=</kbd> / <kbd>-</kbd> | Change flashlight radius                        |
+| <kbd>Ctrl</kbd> + Scroll wheel                | Change flashlight radius                        |
+
+You can modify the controls in `src/config.h` and recompile
+
+## Project Structure
+
+- `src/cboomer.c` - Main application logic
+- `src/config.h` - Configuration
+- `src/la.h` - Linear algebra
+- `src/screenshot.h` - Screenshot capture
