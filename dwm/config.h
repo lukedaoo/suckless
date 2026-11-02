@@ -169,14 +169,15 @@ static const char *take_note[] = {"take_note", NULL};
 static const char *screenshot[] = {"flameshot-fix", NULL };
 static const char *thunar[] = {"thunar", NULL };
 
-static const char *next_music[] = {"playerctl", "next", NULL};
-static const char *previous_music[] = {"playerctl", "previous", NULL};
-static const char *play_pause_music[] = {"playerctl", "play-pause", NULL};
+static const char *next_music[] = {"mpc", "-q", "next", NULL};
+static const char *previous_music[] = {"mpc", "-q", "prev", NULL};
+static const char *play_pause_music[] = {"mpc", "-q", "toggle", NULL};
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_space,  spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY,                       XK_z,      spawn,          SHCMD("cboomer") },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_w,      tabmode,        {-1} },
 	{ MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
