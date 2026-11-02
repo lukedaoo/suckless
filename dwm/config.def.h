@@ -161,9 +161,9 @@ static const char *downvol[] = { "/usr/bin/amixer", "set", "Master", "5%-", NULL
 static const char *mutevol[] = { "/usr/bin/amixer", "set", "Master", "toggle", NULL };
 static const char *mute_mic[] = {"/usr/bin/amixer", "set", "Capture", "toggle", NULL };
 
-/* To use light add this to the constant definition section. Thanks Hritik14. */
-static const char *light_up[] = {"/usr/bin/light", "-A", "10", NULL};
-static const char *light_down[] = {"/usr/bin/light", "-U", "10", NULL};
+/* Brightness keys: brightnessctl (light was dropped from Arch repos) */
+static const char *light_up[] = {"/usr/bin/brightnessctl", "-q", "set", "10%+", NULL};
+static const char *light_down[] = {"/usr/bin/brightnessctl", "-q", "set", "10%-", NULL};
 
 static const char *take_note[] = {"take_note", NULL};
 static const char *screenshot[] = {"flameshot-fix", NULL };
