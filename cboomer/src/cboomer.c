@@ -1,9 +1,13 @@
 // TODO(20260426T215403): wayland compatible
 
+#define _DEFAULT_SOURCE
+#include <fcntl.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/file.h>
+#include <unistd.h>
 #include <zlib.h>
 
 #define SCREENSHOT_IMPL
@@ -761,6 +765,20 @@ void usage(const char *name) {
            name);
 }
 
+// Allow only one instance: hold an exclusive lock for the process lifetime.
+static void ensure_single_instance(void) {
+    const char *dir = getenv("XDG_RUNTIME_DIR");
+    char path[256];
+    snprintf(path, sizeof(path), "%s/cboomer.lock", dir && *dir ? dir : "/tmp");
+    int fd = open(path, O_CREAT | O_RDWR, 0600);
+    if (fd < 0) return; // can't lock, don't block startup
+    if (flock(fd, LOCK_EX | LOCK_NB) != 0) {
+        fprintf(stderr, "cboomer is already running\n");
+        exit(0);
+    }
+    // fd intentionally left open; the lock is released when the process exits
+}
+
 int main(int argc, char **argv) {
     if (argc > 1) {
         for (int i = 1; i < argc; i++) {
@@ -773,6 +791,8 @@ int main(int argc, char **argv) {
             }
         }
     }
+
+    ensure_single_instance();
 
     // init x11
     X11Context x11 = {0};
