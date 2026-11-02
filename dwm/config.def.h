@@ -15,11 +15,11 @@ static const int showtab			= showtab_auto;        /* Default tab bar show mode *
 static const int toptab				= True;                /* False means bottom tab bar */
 
 static const char *fonts[]          = {
-    "Comic Mono:style=Normal:size=12", 
+    "Comic Code:size=12", 
     "monospace:size=12",
     "Font Awesome 6 Free Regular:style=Regular:size=12" 
 };
-static const char dmenufont[]       = "Comic Mono:style=Normal:size=12";
+static const char dmenufont[]       = "Comic Code:size=12";
 /* default color */
 /*
 static const char col_gray1[]       = "#222222";
